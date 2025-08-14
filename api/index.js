@@ -7,160 +7,283 @@
  * or distribution is strictly prohibited.
  */
 
+import { logInfo, logError, logWarning, logDebug, measurePerformance } from './logger.js';
+
 // Simulated HR news data generator
 function generateHRNews() {
-  const currentDate = new Date();
-  const newsSources = [
-    "Portal RH Brasil",
-    "Revista RH", 
-    "HR Brasil",
-    "Gestão RH",
-    "RH Digital",
-    "Portal Carreira",
-    "RH Online",
-    "Gestão de Pessoas",
-    "RH News",
-    "HR Trends"
-  ];
-
-  const categories = [
-    "Legislação", "Tecnologia", "Trabalho Remoto", "Benefícios", "Diversidade",
-    "Gerações", "Bem-estar", "Treinamento", "Retenção", "Remuneração",
-    "Recrutamento", "Gestão", "Liderança", "Cultura", "Inovação"
-  ];
-
-  const topics = [
-    "Nova legislação trabalhista 2024",
-    "IA e automação em RH",
-    "Home office híbrido",
-    "Benefícios flexíveis",
-    "Diversidade e inclusão",
-    "Geração Z no trabalho",
-    "Bem-estar corporativo",
-    "E-learning corporativo",
-    "Retenção de talentos",
-    "Salários e remuneração",
-    "Transformação digital em RH",
-    "Gestão de performance",
-    "Cultura organizacional",
-    "Liderança moderna",
-    "Recrutamento digital",
-    "People Analytics",
-    "Compliance trabalhista",
-    "Gestão de mudanças",
-    "Desenvolvimento de lideranças",
-    "Clima organizacional"
-  ];
-
-  const newsList = [];
-
-  for (let i = 0; i < 100; i++) {
-    const daysAgo = Math.floor(Math.random() * 30);
-    const articleDate = new Date(currentDate.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
+  logDebug('Starting HR news data generation');
+  
+  try {
+    const currentDate = new Date();
+    logInfo('Current date for news generation', { currentDate: currentDate.toISOString() });
     
-    const source = newsSources[Math.floor(Math.random() * newsSources.length)];
-    const category = categories[Math.floor(Math.random() * categories.length)];
-    const topic = topics[Math.floor(Math.random() * topics.length)];
-    
-    const baseViews = Math.max(3000, 50000 - (daysAgo * 1000));
-    const views = baseViews + Math.floor(Math.random() * 5000);
-    const shares = Math.max(30, Math.floor(views / 100));
-    const comments = Math.max(5, Math.floor(views / 500));
-    
-    newsList.push({
-      rank: i + 1,
-      title: `${topic}: Tendências que dominarão ${currentDate.getFullYear()}`,
-      source: source,
-      summary: `Artigo atualizado sobre ${topic.toLowerCase()} com insights valiosos para profissionais de RH em ${currentDate.getFullYear()}. Inclui dados recentes e estratégias práticas.`,
-      date: articleDate.toISOString().split('T')[0],
-      views: views,
-      shares: shares,
-      comments: comments,
-      category: category,
-      is_current: daysAgo <= 7
+    const newsSources = [
+      "Portal RH Brasil",
+      "Revista RH", 
+      "HR Brasil",
+      "Gestão RH",
+      "RH Digital",
+      "Portal Carreira",
+      "RH Online",
+      "Gestão de Pessoas",
+      "RH News",
+      "HR Trends"
+    ];
+
+    const categories = [
+      "Legislação", "Tecnologia", "Trabalho Remoto", "Benefícios", "Diversidade",
+      "Gerações", "Bem-estar", "Treinamento", "Retenção", "Remuneração",
+      "Recrutamento", "Gestão", "Liderança", "Cultura", "Inovação"
+    ];
+
+    const topics = [
+      "Nova legislação trabalhista 2024",
+      "IA e automação em RH",
+      "Home office híbrido",
+      "Benefícios flexíveis",
+      "Diversidade e inclusão",
+      "Geração Z no trabalho",
+      "Bem-estar corporativo",
+      "E-learning corporativo",
+      "Retenção de talentos",
+      "Salários e remuneração",
+      "Transformação digital em RH",
+      "Gestão de performance",
+      "Cultura organizacional",
+      "Liderança moderna",
+      "Recrutamento digital",
+      "People Analytics",
+      "Compliance trabalhista",
+      "Gestão de mudanças",
+      "Desenvolvimento de lideranças",
+      "Clima organizacional"
+    ];
+
+    logDebug('Data arrays initialized', { 
+      sourcesCount: newsSources.length, 
+      categoriesCount: categories.length, 
+      topicsCount: topics.length 
     });
-  }
 
-  return newsList.sort((a, b) => b.views - a.views);
+    const newsList = [];
+
+    for (let i = 0; i < 100; i++) {
+      try {
+        const daysAgo = Math.floor(Math.random() * 30);
+        const articleDate = new Date(currentDate.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
+        
+        const source = newsSources[Math.floor(Math.random() * newsSources.length)];
+        const category = categories[Math.floor(Math.random() * categories.length)];
+        const topic = topics[Math.floor(Math.random() * topics.length)];
+        
+        const baseViews = Math.max(3000, 50000 - (daysAgo * 1000));
+        const views = baseViews + Math.floor(Math.random() * 5000);
+        const shares = Math.max(30, Math.floor(views / 100));
+        const comments = Math.max(5, Math.floor(views / 500));
+        
+        const newsItem = {
+          rank: i + 1,
+          title: `${topic}: Tendências que dominarão ${currentDate.getFullYear()}`,
+          source: source,
+          summary: `Artigo atualizado sobre ${topic.toLowerCase()} com insights valiosos para profissionais de RH em ${currentDate.getFullYear()}. Inclui dados recentes e estratégias práticas.`,
+          date: articleDate.toISOString().split('T')[0],
+          views: views,
+          shares: shares,
+          comments: comments,
+          category: category,
+          is_current: daysAgo <= 7
+        };
+        
+        newsList.push(newsItem);
+        
+        // Log every 25th item for debugging
+        if ((i + 1) % 25 === 0) {
+          logDebug(`Generated ${i + 1} news items`, { 
+            lastItem: { rank: newsItem.rank, title: newsItem.title, views: newsItem.views } 
+          });
+        }
+        
+      } catch (itemError) {
+        logError(`Error generating news item ${i + 1}`, itemError, { itemIndex: i });
+        // Continue with next item instead of failing completely
+      }
+    }
+
+    logInfo(`Successfully generated ${newsList.length} news items`);
+    
+    const sortedList = newsList.sort((a, b) => b.views - a.views);
+    logDebug('News list sorted by views');
+    
+    return sortedList;
+    
+  } catch (error) {
+    logError('Failed to generate HR news data', error);
+    throw error;
+  }
 }
 
 function generateStatistics(newsList) {
-  const totalViews = newsList.reduce((sum, news) => sum + news.views, 0);
-  const totalShares = newsList.reduce((sum, news) => sum + news.shares, 0);
-  const totalComments = newsList.reduce((sum, news) => sum + news.comments, 0);
-  const currentNews = newsList.filter(news => news.is_current).length;
-
-  const categories = {};
-  const sources = {};
-
-  newsList.forEach(news => {
-    // Count categories
-    if (!categories[news.category]) {
-      categories[news.category] = { count: 0, views: 0 };
-    }
-    categories[news.category].count++;
-    categories[news.category].views += news.views;
-
-    // Count sources
-    if (!sources[news.source]) {
-      sources[news.source] = { count: 0, views: 0 };
-    }
-    sources[news.source].count++;
-    sources[news.source].views += news.views;
-  });
-
-  const topCategory = Object.entries(categories)
-    .sort(([,a], [,b]) => b.views - a.views)[0][0];
+  logDebug('Starting statistics generation');
   
-  const topSource = Object.entries(sources)
-    .sort(([,a], [,b]) => b.views - a.views)[0][0];
+  try {
+    if (!Array.isArray(newsList)) {
+      throw new Error('newsList must be an array');
+    }
+    
+    if (newsList.length === 0) {
+      logWarning('Empty news list provided for statistics generation');
+      return {
+        total_views: 0,
+        total_shares: 0,
+        total_comments: 0,
+        current_news: 0,
+        avg_views: 0,
+        top_category: 'N/A',
+        top_source: 'N/A',
+        categories: {},
+        sources: {}
+      };
+    }
+    
+    const totalViews = newsList.reduce((sum, news) => {
+      if (typeof news.views !== 'number' || isNaN(news.views)) {
+        logWarning('Invalid views value found', { news: news });
+        return sum;
+      }
+      return sum + news.views;
+    }, 0);
+    
+    const totalShares = newsList.reduce((sum, news) => {
+      if (typeof news.shares !== 'number' || isNaN(news.shares)) {
+        logWarning('Invalid shares value found', { news: news });
+        return sum;
+      }
+      return sum + news.shares;
+    }, 0);
+    
+    const totalComments = newsList.reduce((sum, news) => {
+      if (typeof news.comments !== 'number' || isNaN(news.comments)) {
+        logWarning('Invalid comments value found', { news: news });
+        return sum;
+      }
+      return sum + news.comments;
+    }, 0);
+    
+    const currentNews = newsList.filter(news => news.is_current).length;
 
-  return {
-    total_views: totalViews,
-    total_shares: totalShares,
-    total_comments: totalComments,
-    current_news: currentNews,
-    avg_views: Math.floor(totalViews / newsList.length),
-    top_category: topCategory,
-    top_source: topSource,
-    categories: categories,
-    sources: sources
-  };
+    const categories = {};
+    const sources = {};
+
+    newsList.forEach((news, index) => {
+      try {
+        // Count categories
+        if (!categories[news.category]) {
+          categories[news.category] = { count: 0, views: 0 };
+        }
+        categories[news.category].count++;
+        categories[news.category].views += news.views || 0;
+
+        // Count sources
+        if (!sources[news.source]) {
+          sources[news.source] = { count: 0, views: 0 };
+        }
+        sources[news.source].count++;
+        sources[news.source].views += news.views || 0;
+        
+      } catch (itemError) {
+        logError(`Error processing news item ${index + 1} for statistics`, itemError, { news: news });
+      }
+    });
+
+    const topCategory = Object.entries(categories)
+      .sort(([,a], [,b]) => b.views - a.views)[0]?.[0] || 'N/A';
+    
+    const topSource = Object.entries(sources)
+      .sort(([,a], [,b]) => b.views - a.views)[0]?.[0] || 'N/A';
+
+    const stats = {
+      total_views: totalViews,
+      total_shares: totalShares,
+      total_comments: totalComments,
+      current_news: currentNews,
+      avg_views: Math.floor(totalViews / newsList.length),
+      top_category: topCategory,
+      top_source: topSource,
+      categories: categories,
+      sources: sources
+    };
+    
+    logInfo('Statistics generated successfully', {
+      totalViews: totalViews,
+      totalShares: totalShares,
+      totalComments: totalComments,
+      currentNews: currentNews,
+      avgViews: stats.avg_views,
+      topCategory: topCategory,
+      topSource: topSource
+    });
+    
+    return stats;
+    
+  } catch (error) {
+    logError('Failed to generate statistics', error, { newsListLength: newsList?.length });
+    throw error;
+  }
 }
 
 function generateHTML(newsList, stats) {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '').slice(0, -5);
+  logDebug('Starting HTML generation');
   
-  const newsHTML = newsList.map(news => {
-    const rankClass = news.rank <= 10 ? "top-10" : news.rank <= 50 ? "top-50" : "top-100";
-    const currentClass = news.is_current ? "current" : "";
+  try {
+    if (!Array.isArray(newsList)) {
+      throw new Error('newsList must be an array for HTML generation');
+    }
     
-    return `
-      <div class="news-item ${rankClass} ${currentClass}">
-        <div class="rank-badge">#${news.rank}</div>
-        <div class="news-content">
-          <div class="news-header">
-            <span class="source">${news.source}</span>
-            <span class="category">${news.category}</span>
-            <span class="date">${news.date}</span>
-            ${news.is_current ? '<span class="current-badge">🔥 Atual</span>' : ''}
+    if (!stats || typeof stats !== 'object') {
+      throw new Error('stats must be an object for HTML generation');
+    }
+    
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '').slice(0, -5);
+    
+    logDebug('Generating news HTML items', { newsCount: newsList.length });
+    
+    const newsHTML = newsList.map((news, index) => {
+      try {
+        const rankClass = news.rank <= 10 ? "top-10" : news.rank <= 50 ? "top-50" : "top-100";
+        const currentClass = news.is_current ? "current" : "";
+        
+        return `
+          <div class="news-item ${rankClass} ${currentClass}">
+            <div class="rank-badge">#${news.rank}</div>
+            <div class="news-content">
+              <div class="news-header">
+                <span class="source">${news.source}</span>
+                <span class="category">${news.category}</span>
+                <span class="date">${news.date}</span>
+                ${news.is_current ? '<span class="current-badge">🔥 Atual</span>' : ''}
+              </div>
+              <h3 class="title">${news.title}</h3>
+              <p class="summary">${news.summary}</p>
+              <div class="engagement">
+                <span class="views">👁️ ${news.views.toLocaleString()} visualizações</span>
+                <span class="shares">📤 ${news.shares.toLocaleString()} compartilhamentos</span>
+                <span class="comments">💬 ${news.comments.toLocaleString()} comentários</span>
+                <a href="https://www.google.com/search?q=${encodeURIComponent(news.title + ' ' + news.source + ' RH')}" target="_blank" rel="noopener noreferrer" class="search-google">
+                  🔍 Buscar no Google
+                </a>
+              </div>
+            </div>
           </div>
-          <h3 class="title">${news.title}</h3>
-          <p class="summary">${news.summary}</p>
-          <div class="engagement">
-            <span class="views">👁️ ${news.views.toLocaleString()} visualizações</span>
-            <span class="shares">📤 ${news.shares.toLocaleString()} compartilhamentos</span>
-            <span class="comments">💬 ${news.comments.toLocaleString()} comentários</span>
-            <a href="https://www.google.com/search?q=${encodeURIComponent(news.title + ' ' + news.source + ' RH')}" target="_blank" rel="noopener noreferrer" class="search-google">
-              🔍 Buscar no Google
-            </a>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
+        `;
+      } catch (itemError) {
+        logError(`Error generating HTML for news item ${index + 1}`, itemError, { news: news });
+        return `<div class="news-item error">Error generating news item #${news.rank || index + 1}</div>`;
+      }
+    }).join('');
 
-  return `
+    logDebug('News HTML generated successfully');
+
+    const htmlContent = `
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -315,6 +438,14 @@ function generateHTML(newsList, stats) {
         .news-item.current {
             border: 2px solid #dc3545;
             background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+        }
+        
+        .news-item.error {
+            border: 2px solid #dc3545;
+            background: #fff5f5;
+            color: #dc3545;
+            text-align: center;
+            padding: 20px;
         }
         
         .rank-badge {
@@ -504,9 +635,35 @@ function generateHTML(newsList, stats) {
     </div>
 </body>
 </html>`;
+
+    logInfo('HTML generated successfully', { 
+      htmlLength: htmlContent.length,
+      newsItemsGenerated: newsList.length 
+    });
+    
+    return htmlContent;
+    
+  } catch (error) {
+    logError('Failed to generate HTML', error, { 
+      newsListLength: newsList?.length,
+      statsKeys: stats ? Object.keys(stats) : null 
+    });
+    throw error;
+  }
 }
 
 export default function handler(req, res) {
+  const requestId = Math.random().toString(36).substring(2, 15);
+  const startTime = Date.now();
+  
+  logInfo(`API Request started`, { 
+    requestId: requestId,
+    method: req.method,
+    url: req.url,
+    userAgent: req.headers['user-agent'],
+    timestamp: new Date().toISOString()
+  });
+
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -514,6 +671,7 @@ export default function handler(req, res) {
 
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
+    logInfo(`CORS preflight request handled`, { requestId: requestId });
     res.status(200).end();
     return;
   }
@@ -521,19 +679,26 @@ export default function handler(req, res) {
   // Handle GET requests
   if (req.method === 'GET') {
     try {
-      // Generate HR news data
-      const newsList = generateHRNews();
+      logInfo(`Processing GET request`, { requestId: requestId });
       
-      // Generate statistics
-      const stats = generateStatistics(newsList);
+      // Generate HR news data with performance monitoring
+      const newsList = measurePerformance('News Generation', () => generateHRNews());
       
-      // Generate HTML
-      const htmlContent = generateHTML(newsList, stats);
+      // Generate statistics with performance monitoring
+      const stats = measurePerformance('Statistics Generation', () => generateStatistics(newsList));
+      
+      // Generate HTML with performance monitoring
+      const htmlContent = measurePerformance('HTML Generation', () => generateHTML(newsList, stats));
       
       // Prepare response
       const responseData = {
         success: true,
+        requestId: requestId,
         timestamp: new Date().toISOString(),
+        performance: {
+          totalTime: Date.now() - startTime,
+          newsCount: newsList.length
+        },
         stats: {
           total_views: stats.total_views,
           total_shares: stats.total_shares,
@@ -555,20 +720,46 @@ export default function handler(req, res) {
         }))
       };
 
+      logInfo(`Request completed successfully`, { 
+        requestId: requestId,
+        totalTime: Date.now() - startTime,
+        responseSize: JSON.stringify(responseData).length
+      });
+
       res.status(200).json(responseData);
       
     } catch (error) {
-      // Error response
       const errorData = {
         success: false,
+        requestId: requestId,
         error: error.message,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        performance: {
+          totalTime: Date.now() - startTime
+        }
       };
+      
+      logError(`Request failed`, error, { 
+        requestId: requestId,
+        totalTime: Date.now() - startTime,
+        method: req.method,
+        url: req.url
+      });
       
       res.status(500).json(errorData);
     }
   } else {
     // Method not allowed
-    res.status(405).json({ error: 'Method not allowed' });
+    logWarning(`Method not allowed`, { 
+      requestId: requestId,
+      method: req.method,
+      allowedMethods: ['GET', 'OPTIONS']
+    });
+    
+    res.status(405).json({ 
+      error: 'Method not allowed',
+      requestId: requestId,
+      allowedMethods: ['GET', 'OPTIONS']
+    });
   }
 }

@@ -12,6 +12,10 @@
   ],
   "routes": [
     {
+      "src": "/api/debug",
+      "dest": "/api/debug.js"
+    },
+    {
       "src": "/api",
       "dest": "/api/index.js"
     },
