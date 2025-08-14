@@ -1,5 +1,11 @@
 # 🚀 HR News Scraper - Vercel Deployment
 
+**PROPRIETARY SOFTWARE - WORKITU TECH, ISRAEL**
+
+**Copyright (c) 2025 Workitu Tech, Israel. All Rights Reserved.**
+
+This software is proprietary and confidential. Unauthorized use, reproduction, or distribution is strictly prohibited.
+
 ## 📋 Overview
 
 This project is configured for deployment on Vercel as a serverless application. It provides a web interface to generate and display the 100 most current HR news articles from Brazilian sources.
@@ -160,7 +166,7 @@ logging.basicConfig(level=logging.DEBUG)
 - **Serverless Functions**: https://vercel.com/docs/functions
 
 ### Contact
-- **Developer**: Workitu TecH
+- **Developer**: Workitu Tech, Israel
 - **Website**: https://workitu.com
 - **Repository**: https://github.com/DaCoderMan/hrx3
 
@@ -178,4 +184,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 ---
 
-**Deployed with ❤️ by Workitu TecH**
+**Copyright (c) 2025 Workitu Tech, Israel. All Rights Reserved.**
+
+**Deployed with ❤️ by Workitu Tech, Israel**

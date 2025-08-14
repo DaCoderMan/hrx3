@@ -48,6 +48,10 @@ Thumbs.db
 ai_tweets_*.txt
 *.log
 
+# Proprietary software notice - DO NOT REMOVE
+!PROPRIETARY_NOTICE.txt
+!LICENSE
+
 # Configuration files with sensitive data
 config_local.py
 .env

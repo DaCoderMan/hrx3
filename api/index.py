@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
 Vercel Serverless Function for HR News Scraper
+
+Copyright (c) 2025 Workitu Tech, Israel. All Rights Reserved.
+
+This software is proprietary and confidential. Unauthorized use, reproduction, 
+or distribution is strictly prohibited.
 """
 
 import sys

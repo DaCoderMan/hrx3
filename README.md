@@ -1,6 +1,12 @@
-# Grok AI Tweets Searcher
+# HR News Scraper
 
-A Python script that uses the xAI Grok API to search for trending AI-related tweets in Portuguese from Brazilian users. The script retrieves the top 30 tweets based on engagement metrics and provides detailed information about each tweet.
+**PROPRIETARY SOFTWARE - WORKITU TECH, ISRAEL**
+
+A Python-based web scraper for collecting and displaying the 100 most current HR news articles from Brazilian sources.
+
+**Copyright (c) 2025 Workitu Tech, Israel. All Rights Reserved.**
+
+This software is proprietary and confidential. Unauthorized use, reproduction, or distribution is strictly prohibited.
 
 ## Features
 
