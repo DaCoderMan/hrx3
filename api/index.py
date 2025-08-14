@@ -43,6 +43,17 @@ def handler(request, context):
     
     # Handle GET requests
     if request.method == 'GET':
+        # Add a simple test endpoint
+        if request.path == '/api/test':
+            return {
+                'statusCode': 200,
+                'headers': headers,
+                'body': json.dumps({
+                    "success": True,
+                    "message": "API is working!",
+                    "timestamp": datetime.now().isoformat()
+                })
+            }
         try:
             # Initialize scraper
             scraper = CurrentHRNewsScraper()
