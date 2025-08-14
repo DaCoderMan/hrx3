@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "name": "hr-news-scraper",
+  "builds": [
+    {
+      "src": "api/*.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "functions": {
+    "api/scraper.py": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "PYTHONPATH": "."
+  }
+}
