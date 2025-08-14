@@ -12,6 +12,10 @@
   ],
   "routes": [
     {
+      "src": "/api/deployment-diagnostics",
+      "dest": "/api/deployment-diagnostics.js"
+    },
+    {
       "src": "/api/debug",
       "dest": "/api/debug.js"
     },
